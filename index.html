@@ -3,97 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Brave Little Duck</title>
+    <title>The Drunken Man</title>
     <style>
         body, html {
+            height: 100%;
             margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
             overflow: hidden;
-            background-color: #006994; /* Deep Ocean Blue */
+            background-color: #2a3b4c; /* Initial Sober Blue */
+            animation: backgroundChange 10s infinite linear alternate;
         }
 
-        /* The Ocean Container */
-        .ocean {
+        /* The overall composition (wobbles more as time goes on) */
+        .stage {
             position: relative;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #1e90ff 0%, #006994 100%);
+            width: 400px;
+            height: 400px;
+            animation: roomSpin 4s infinite linear;
         }
 
-        /* The Waves */
-        .wave {
+        /* --- THE MAN --- */
+        .man {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Head */
+        .head {
+            width: 80px;
+            height: 90px;
+            background-color: #ffdbac;
+            border-radius: 40px 40px 10px 10px;
+            position: relative;
+            margin-bottom: 5px;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Rosy Cheeks (Drunk Effect) */
+        .head::before, .head::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 15px;
+            background: rgba(255, 100, 100, 0.6);
+            border-radius: 50%;
+            top: 50px;
+            animation: flush 2s infinite alternate;
+        }
+        .head::before { left: 10px; }
+        .head::after { right: 10px; }
+
+        /* Torso */
+        .body {
+            width: 120px;
+            height: 150px;
+            background-color: #333;
+            border-radius: 20px 20px 5px 5px;
+            position: relative;
+        }
+
+        /* Arm holding the beer */
+        .arm {
+            width: 70px;
+            height: 25px;
+            background-color: #333; /* Matches jacket */
+            position: absolute;
+            right: -55px;
+            top: 20px;
+            border-radius: 10px;
+            transform-origin: left center;
+            animation: takeSip 3s infinite ease-in-out;
+        }
+
+        /* Hand holding mug */
+        .hand {
+            width: 30px;
+            height: 30px;
+            background-color: #ffdbac;
+            border-radius: 50%;
+            position: absolute;
+            right: -15px;
+            top: -5px;
+        }
+
+        /* --- THE BEER MUG --- */
+        .beer-mug {
+            position: absolute;
+            width: 50px;
+            height: 60px;
+            background-color: #f1c40f; /* Golden Beer */
+            border: 4px solid #fff;
+            border-radius: 5px;
+            right: -45px;
+            top: -40px; /* Above the hand */
+        }
+
+        /* Froth */
+        .froth {
+            position: absolute;
+            top: -15px;
+            left: -5px;
+            width: 60px;
+            height: 25px;
+            background-color: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 5px 5px rgba(255,255,255,0.5);
+        }
+
+        /* Handle */
+        .handle {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            border: 5px solid #fff;
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+            right: -25px;
+            top: 15px;
+        }
+
+        /* --- STAGE DECOR --- */
+        .table {
             position: absolute;
             bottom: 0;
-            width: 200%;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 40%;
-            animation: drift 7s infinite linear;
-        }
-
-        .wave:nth-child(2) {
-            bottom: 10px;
-            opacity: 0.5;
-            animation: drift 10s infinite linear reverse;
-        }
-
-        /* The Duck */
-        .duck {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            font-size: 80px;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            user-select: none;
-            animation: sink-and-bob 4s ease-in-out infinite;
-        }
-
-        /* Animations */
-        @keyframes drift {
-            from { transform: translateX(-50%) rotate(0deg); }
-            to { transform: translateX(0%) rotate(360deg); }
-        }
-
-        @keyframes sink-and-bob {
-            0%, 100% {
-                transform: translate(-50%, -50%) rotate(0deg);
-                opacity: 1;
-            }
-            50% {
-                transform: translate(-50%, 20%) rotate(15deg); /* Sinks down */
-                opacity: 0.6;
-            }
-            75% {
-                transform: translate(-50%, -10%) rotate(-10deg); /* Pops back up */
-            }
-        }
-
-        /* Simple Text Overlay */
-        .status {
-            position: absolute;
-            top: 20px;
             width: 100%;
-            text-align: center;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            height: 60px;
+            background-color: #6f4e37;
+            border-radius: 10px 10px 0 0;
         }
+
+        /* Additional empty mugs */
+        .empty-mug {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid #ccc;
+            bottom: 60px;
+            opacity: 0.6;
+        }
+        .mug1 { left: 40px; }
+        .mug2 { left: 80px; transform: rotate(15deg); }
+        .mug3 { right: 50px; transform: rotate(-10deg); }
+
+        /* --- ANIMATIONS --- */
+
+        /* 1. The Room Spinning (Increased Wobble) */
+        @keyframes roomSpin {
+            0% { transform: rotate(0deg); filter: blur(0px); }
+            25% { transform: rotate(2deg); filter: blur(1px); }
+            50% { transform: rotate(-3deg); filter: blur(0.5px); }
+            75% { transform: rotate(1deg); filter: blur(1.5px); }
+            100% { transform: rotate(0deg); filter: blur(0px); }
+        }
+
+        /* 2. The Background changing to a "Sickly/Tipsy" Hue */
+        @keyframes backgroundChange {
+            0% { background-color: #2a3b4c; } /* Sober blue */
+            100% { background-color: #4c662a; } /* Tipsy green */
+        }
+
+        /* 3. Drinking Action */
+        @keyframes takeSip {
+            0%, 20%, 100% { transform: rotate(0deg); } /* Holding mug down */
+            50%, 70% { transform: rotate(-50deg) translateY(-20px); } /* Tipping mug back to face */
+        }
+
+        /* 4. Cheeks Flushing */
+        @keyframes flush {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; background: rgb(255, 50, 50); }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="ocean">
-        <div class="status">H E L P</div>
-        
-        <div class="duck">🦆</div>
+    <div class="stage">
+        <div class="table">
+            <div class="empty-mug mug1"></div>
+            <div class="empty-mug mug2"></div>
+            <div class="empty-mug mug3"></div>
+        </div>
 
-        <div class="wave"></div>
-        <div class="wave"></div>
+        <div class="man">
+            <div class="head"></div>
+            <div class="body">
+                <div class="arm">
+                    <div class="hand"></div>
+                    <div class="beer-mug">
+                        <div class="froth"></div>
+                        <div class="handle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
