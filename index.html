@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Brave Little Duck</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #006994; /* Deep Ocean Blue */
+        }
+
+        /* The Ocean Container */
+        .ocean {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #1e90ff 0%, #006994 100%);
+        }
+
+        /* The Waves */
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 200%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 40%;
+            animation: drift 7s infinite linear;
+        }
+
+        .wave:nth-child(2) {
+            bottom: 10px;
+            opacity: 0.5;
+            animation: drift 10s infinite linear reverse;
+        }
+
+        /* The Duck */
+        .duck {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 80px;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            user-select: none;
+            animation: sink-and-bob 4s ease-in-out infinite;
+        }
+
+        /* Animations */
+        @keyframes drift {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(0%) rotate(360deg); }
+        }
+
+        @keyframes sink-and-bob {
+            0%, 100% {
+                transform: translate(-50%, -50%) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, 20%) rotate(15deg); /* Sinks down */
+                opacity: 0.6;
+            }
+            75% {
+                transform: translate(-50%, -10%) rotate(-10deg); /* Pops back up */
+            }
+        }
+
+        /* Simple Text Overlay */
+        .status {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ocean">
+        <div class="status">H E L P</div>
+        
+        <div class="duck">🦆</div>
+
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+</body>
+</html>
